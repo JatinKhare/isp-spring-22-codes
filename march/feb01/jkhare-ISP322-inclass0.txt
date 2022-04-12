@@ -1,0 +1,17 @@
+/*
+ * [Requirements] Elements needed: A propoer visual understanding of which potato is large, which is small. 
+ *
+ * [Parameters] There must be full size potatoes and no half-cut ones. 
+ *
+ * [Logic] Order of the task is to take two adjecent potatoes and place the bigger one on the left of the smaller one in a line. Keep doing    this until the swapping is stopped. 
+ *
+ * [Algorithm] 1. Arrange the potaotes in any random order. 
+ *             2. Starting from the left, take two consecutive potatoes and place the bigger one on the left of the smaller one.
+ *             3. Finish one iteration of this with all the potatoes. 
+ *             4. Again start from the left and repeat the process.
+ *             5. Keep repeating step 2-4 until there is no swapping left to do in the iteration. 
+ *             6. This marks the end of the sorting process and hence we are left with the potatoes sorted from biggest to smallest. 	
+ *
+ */
+
+ 
