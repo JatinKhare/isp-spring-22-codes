@@ -7,7 +7,7 @@ program newton
 implicit none
 
 real, parameter :: eps = 0.0001
-integer, parameter :: max_iter = 100, arr_ind = 1000
+integer, parameter :: max_iter = 100, arr_ind = 1001
 real :: x, y
 integer :: ans, i
 real, dimension(arr_ind) :: x_array
@@ -15,17 +15,15 @@ real, dimension(arr_ind) :: root_array
 integer, dimension(arr_ind) :: iter_array
 x = 0
 i = 1
-do while (i <= 1000)
+do while (i <= 1001)
         !print *, "x_old= ", x_array(i)
-        x = x + 0.01
-        
-        !starting with 0.01 as f(x)/0 is NOT DEFINED
 
         ans = converge_func(max_iter, eps, x, root_array, i)    !calling the
                                                                 ! newton's function 
         x_array(i) = x
         iter_array(i) = ans
         i = i + 1
+        x = x + 0.01
         !print *, "i= ", iter_array(i)
 end do
 ans = print_array_details(x_array, iter_array, root_array, arr_ind)
@@ -76,19 +74,23 @@ integer function converge_func(max_iter, eps, x, root_array, i)
 implicit none
 integer :: max_iter
 real :: x, x_old, eps
-real, dimension(1000) :: root_array
+real, dimension(1001) :: root_array
 integer :: count_iter, k, i
 real :: x_n_1 
 count_iter = 0
 x_old = x
 do k=1, max_iter
-        count_iter = count_iter + 1
+        if(x==0) then
+                count_iter = 100        !as per Slack
+                EXIT
+        end if 
         x_n_1 = x_new(x_old)            !updating the x
         if(abs((x_old - x_n_1)) .le. eps) then  !condition to break iterations
         !print *, "converge successful at ", x_n_1
         root_array(i) = x_n_1
         EXIT
         end if
+        count_iter = count_iter + 1
         x_old = x_n_1
 end do
 converge_func = count_iter
