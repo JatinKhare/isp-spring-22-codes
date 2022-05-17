@@ -1,5 +1,5 @@
-//Midterm Pandemic: Objects
-//April 25 2022
+//Final Pandemic: SIR Model
+//May 4 2022
 //
 //Name: Jatin Khare
 //UTEID: jk47976
@@ -8,13 +8,16 @@
 #include<iostream>
 #include<time.h>
 #include<vector>
-#define TOTAL_PEOPLE 10000
 
-#define ASYM_SICK_PROB 10
+#define TOTAL_PEOPLE 40000
+#define INTERACTIONS 10
+#define ASYM_SICK_PROB 20
 #define DEATH_PROB 10
 #define MAKING_SICK_PROB 10
-#define VACCINATION_PROB 5
-#define ISOLATION_PROB 65
+#define VACCINATION_PROB 25
+#define VACC_SICK_PROB 10
+#define ISOLATION_PROB 30
+
 using std::cin;
 using std::cout;
 using std::endl;
@@ -51,6 +54,12 @@ class Person {
 
                         days_sick++;
                 }
+
+                if(status == VACCINATED){
+                        bool prob10 = (rand() % 100) < VACC_SICK_PROB;
+                        if(prob10)
+                                status = SICK;
+                }
         }
         void recover(){
                 status = RECOVERED;
@@ -79,7 +88,7 @@ class Person {
         }
 
         void fill_interaction_v(){
-                for(int i = 0; i< 10; i++){
+                for(int i = 0; i< INTERACTIONS; i++){
                         interaction_v.push_back(rand()%TOTAL_PEOPLE + 1);
                 }
         }
@@ -176,7 +185,7 @@ int main() {
         srand(time(NULL));
         Population Population_O;
 
-        //each population will start out at 1000 persons.
+        //each population will start out at TOTAL_PEOPLE persons.
         for(int i=0;i<TOTAL_PEOPLE;i++){
                 Person Person_O;
                 Population_O.add_person(Person_O);
@@ -210,7 +219,7 @@ int main() {
                                 }
 
                                 Population_O.population_v[i].fill_interaction_v(); //prepare its interaction vector
-                                for(int j=0;j<10;j++){
+                                for(int j=0;j<INTERACTIONS;j++){
                                         bool prob10 = (rand() % 100) < MAKING_SICK_PROB;
                                         vector<int> susceptible_person = Population_O.population_v[i].interaction_v;
 

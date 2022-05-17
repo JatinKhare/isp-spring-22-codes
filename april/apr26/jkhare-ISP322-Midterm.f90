@@ -1,5 +1,8 @@
 ! Mid-term project: Newton's Method with Complex Numbers
-! 26 April, 2022
+
+! function: x**3 + 7*x - 23
+
+! 1 May, 2022
 ! Jatin Khare
 ! UTEID: jk47976
 
@@ -29,11 +32,12 @@ do while (i <= arr_ind)
                 iter_array(i, j) = ans
                 a = a + 0.01
                 !print *, "i= ", i, "j= ", j
-                j = j + 1 
+                j = j + 1
         end do
         b = b + 0.01
         i = i + 1
 end do
+!Saving the data in files
 open (unit  = 7, file = "a_data.txt")
 open (unit  = 8, file = "b_data.txt")
 open (unit  = 9, file = "iteration_data.txt")
@@ -46,15 +50,15 @@ do while(i <= arr_ind)
                 write (7, *) real(root_array(i,j))
                 write (8, *) aimag(root_array(i,j))
                 write (9, '(I4,X)', advance = 'no') (iter_array(i,j))
-        j = j + 1 
+        j = j + 1
         end do
                 write (9, *)''
 i = i + 1
-end do 
+end do
 !ans = print_array_details(x_array, iter_array, root_array, arr_ind)
 contains
 
-!printing the arrays
+!printing the arrays: NOT USING THIS FUNCTION
 
 integer function print_array_details(x_array, iter_array, root_array, arr_ind)
 implicit none
@@ -77,8 +81,7 @@ complex function f(x)
 implicit none
 complex :: x
 
-f = log(x) + 2.71**x 
-f =  3*x**4 - 1/x        !the function
+f =  x**3 + 7*x - 23  !the function
 
 end function
 
@@ -86,7 +89,7 @@ complex function p(x)
 implicit none
 complex :: x
 
-p = 12*x**3 + 1/x**2      !the derivative of the function
+p = 3*x**2 + 7      !the derivative of the function
 end function
 
 complex function x_new(x_old)
@@ -102,14 +105,14 @@ complex :: x, x_old
 real ::  eps
 complex, dimension(arr_ind ,arr_ind) :: root_array
 integer :: count_iter, k, i, j
-complex :: x_n_1 
+complex :: x_n_1
 count_iter = 0
 x_old = x
 do k=1, max_iter
         if(x==0) then
                 count_iter = 100        !as per Slack
                 EXIT
-        end if 
+        end if
         x_n_1 = x_new(x_old)            !updating the x
         if(abs((x_old - x_n_1)) .le. eps) then  !condition to break iterations
         !print *, "converge successful at ", x_n_1
